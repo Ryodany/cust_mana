@@ -2,13 +2,21 @@
 #include <algorithm>
 #include <time.h>
 
-#include "Customers.h"
+#include "main_pragma_lib.h"
+#include "core/Customers.h"
+
 using namespace std;
 
 template<typename K, typename V>
-void printMapValues(pair<K, V> mapPair)
+void printMapValues(pair<K, V> &mapPair)
 {
 	cout << *mapPair.second << endl;
+}
+
+// non-templated function for unique_ptr printing
+void printCustomers(Customer &customer)
+{
+	cout << customer << endl;
 }
 
 void processInput(int input, Customers &customers)
@@ -16,7 +24,7 @@ void processInput(int input, Customers &customers)
 	if (input == 1) // print
 	{
 		if (customers.getSize() > 0)
-			for_each(customers.begin(), customers.end(), printMapValues<unsigned long, shared_ptr<Customer>>);
+			for_each(customers.begin(), customers.end(), printMapValues<const unsigned long, shared_ptr<Customer> >);
 		else
 			cout << "No customers found" << endl << endl;
 	}
@@ -37,7 +45,7 @@ void processInput(int input, Customers &customers)
 		y2k17.tm_year = 117;
 		Software datisa("Datisa32", mktime(&y2k17), 39);
 		// adding the customer through the operator<< overload I previously implemented
-		if (customers << make_shared<Customer>(Customer(customers.getLastId(), name, surname, phoneNumber, datisa, yearsWithUs)))
+		if (customers << make_unique<Customer>(Customer(customers.getLastId(), name, surname, phoneNumber, datisa, yearsWithUs)))
 			cout << "Customer added successfully" << endl << endl;
 		else
 			cout << "Unexpected error occurred when trying to add that customer" << endl << endl;
@@ -56,7 +64,7 @@ void processInput(int input, Customers &customers)
 		{
 			// get every ID from the results
 			vector<unsigned long> ids;
-			for (auto &a : results)
+			for (auto a : results)
 			{
 				ids.push_back(a.getId());
 				cout << a << endl;

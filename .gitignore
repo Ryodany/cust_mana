@@ -32,8 +32,8 @@
 *.idb
 *.tlog
 *.db
-Customer Management.log
-*CppClean.log
+*.log
 *.ilk
 *.ilk
 *.pdb
+*.exp
