@@ -6,17 +6,19 @@ cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 
 set(PROJECT_NAME CustomerManagement)
 # Output Variables
-set(OUTPUT_DEBUG cust_mana_linux/${CMAKE_BUILD_TYPE})
-set(OUTPUT_REL cust_mana_linux/${CMAKE_BUILD_TYPE})
+set(OUTPUT_DEBUG debug_bin/${CMAKE_BUILD_TYPE})
+set(OUTPUT_REL .)
 # Folders files
-set(CPP_DIR_1 ../../src)
-set(HEADER_DIR_1 ../../include)
+set(SOURCE_DIR ./src)
+set(HEADER_DIR ./include)
+
+set(CMAKE_BINARY_DIR ./linux_bin)
 
 ############## CMake Project ################
 #        The main options of project        #
 #############################################
 
-project(${PROJECT_NAME} CXX)
+project(${PROJECT_NAME} C CXX)
 
 # Define Release by default.
 if(NOT CMAKE_BUILD_TYPE)
@@ -40,20 +42,18 @@ add_definitions(
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${OUTPUT_DEBUG}")
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${OUTPUT_DEBUG}")
-  set(CMAKE_EXECUTABLE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${OUTPUT_DEBUG}")
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${OUTPUT_DEBUG}")
 else()
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${OUTPUT_REL}")
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${OUTPUT_REL}")
-  set(CMAKE_EXECUTABLE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${OUTPUT_REL}")
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${OUTPUT_REL}")
 endif()
 
 # Include directories 
-include_directories($ENV{SolutionDir}include/)
-include_directories()
+include_directories(./include)
 
 ################# Flags ################
 # Defines Flags for Windows and Linux. #
-########################################
 
 if(MSVC)
    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /W3 /MD /Od /Zi /EHsc")
@@ -68,15 +68,16 @@ endif(NOT MSVC)
 
 ################ Files ################
 #   --   Add files to project.   --   #
-#######################################
-
-file(GLOB SRC_FILES
-    ${CPP_DIR_1}/*.cpp
-    ${HEADER_DIR_1}/*.h
-)
+#
 
 # Add executable to build.
-add_executable(${PROJECT_NAME} 
-   ${SRC_FILES}
-)
+add_executable(${PROJECT_NAME} ${SOURCE_DIR}/main.cpp)
+
+# Add libraries to build.
+add_library(core SHARED ${SOURCE_DIR}/core/Customer.cpp
+	${SOURCE_DIR}/core/Customers.cpp
+	${SOURCE_DIR}/core/Software.cpp)
+
+include_directories(./include/core)
+target_link_libraries(${PROJECT_NAME} core)
 
