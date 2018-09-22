@@ -30,7 +30,7 @@ endif(NOT CMAKE_BUILD_TYPE)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	add_definitions(
 	   -DCORE_DLL 
-	   -D_DEBUG 
+	   -DDEBUG 
 	   -D_CONSOLE 
 	   -DUNICODE
 	   -D_UNICODE
