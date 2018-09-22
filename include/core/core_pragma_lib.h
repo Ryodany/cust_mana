@@ -3,7 +3,7 @@
 #define CORE_LIB "core"
 #define LIB_EXT ".lib"
 
-#ifdef _DEBUG
+#ifdef RY_DEBUG
 	#define LIB_MODE "d"
 #else
 	#define LIB_MODE ""
