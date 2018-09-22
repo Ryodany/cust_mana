@@ -88,14 +88,24 @@ endif(NOT MSVC)
 #   --   Add files to project.   --   #
 #
 
+# include files
+include_directories(./include/core)
+
 # Add executable to build.
 add_executable(${PROJECT_NAME} ${SOURCE_DIR}/main.cpp)
 
 # Add libraries to build.
-add_library(core SHARED ${SOURCE_DIR}/core/Customer.cpp
-	${SOURCE_DIR}/core/Customers.cpp
-	${SOURCE_DIR}/core/Software.cpp)
-
-include_directories(./include/core)
-target_link_libraries(${PROJECT_NAME} core)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	add_library(cored SHARED ${SOURCE_DIR}/core/Customer.cpp
+		${SOURCE_DIR}/core/Customers.cpp
+		${SOURCE_DIR}/core/Software.cpp)
+		
+	target_link_libraries(${PROJECT_NAME} cored)
+else()
+	add_library(core SHARED ${SOURCE_DIR}/core/Customer.cpp
+		${SOURCE_DIR}/core/Customers.cpp
+		${SOURCE_DIR}/core/Software.cpp)
+		
+	target_link_libraries(${PROJECT_NAME} core)
+endif()
 
