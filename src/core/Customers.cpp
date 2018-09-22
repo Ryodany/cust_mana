@@ -36,18 +36,18 @@ std::map<unsigned long, std::shared_ptr<Customer> > Customers::getCustomers() co
 std::vector<Customer> Customers::returnCustomers() const
 {
 	std::vector<Customer> customers;
-	for (auto a = m_pImpl->m_customers.begin(); a != m_pImpl->m_customers.end(); a++)
-		customers.push_back(*a->second);
+	for (Customers::Impl::CustomersMap::iterator itCustomer = m_pImpl->m_customers.begin(); itCustomer != m_pImpl->m_customers.end(); itCustomer++)
+		customers.push_back(*itCustomer->second);
 	return customers;
 }
 
 std::vector<Customer> Customers::returnCustomers(std::string name) const
 {
 	std::vector<Customer> ret;
-	for (auto a = m_pImpl->m_customers.begin(); a != m_pImpl->m_customers.end(); a++)
+	for (Customers::Impl::CustomersMap::iterator itCustomer = m_pImpl->m_customers.begin(); itCustomer != m_pImpl->m_customers.end(); itCustomer++)
 	{
-		if (a->second->getName() == name || a->second->getSurName() == name)
-			ret.insert(ret.end(), *a->second);
+		if (itCustomer->second->getName() == name || itCustomer->second->getSurName() == name)
+			ret.insert(ret.end(), *itCustomer->second);
 	}
 	return ret;
 }
@@ -56,7 +56,7 @@ std::vector<unsigned long> Customers::returnIds() const
 {
 	std::vector<unsigned long> ids;
 	// lambda for_each to push_back the ID of every customer
-	for_each(m_pImpl->m_customers.begin(), m_pImpl->m_customers.end(), [&ids](auto it) { ids.push_back(it.first); });
+	for_each(m_pImpl->m_customers.begin(), m_pImpl->m_customers.end(), [&ids](auto itCustomer) { ids.push_back(itCustomer.first); });
 	return ids;
 }
 

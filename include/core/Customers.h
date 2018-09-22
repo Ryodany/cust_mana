@@ -49,6 +49,8 @@ public:
 class Customers::Impl
 {
 public:
-	std::map<unsigned long, std::shared_ptr<Customer> > m_customers;
+	typedef std::map<unsigned long, std::shared_ptr<Customer> > CustomersMap;
+
+	CustomersMap m_customers;
 	unsigned long m_lastId = 0; // should be gathered from a file
 };

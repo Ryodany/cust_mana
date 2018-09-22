@@ -64,10 +64,10 @@ void processInput(int input, Customers &customers)
 		{
 			// get every ID from the results
 			vector<unsigned long> ids;
-			for (auto a : results)
+			for (Customer customer : results)
 			{
-				ids.push_back(a.getId());
-				cout << a << endl;
+				ids.push_back(customer.getId());
+				cout << customer << endl;
 			}
 			bool valid = false;
 			unsigned long id;
