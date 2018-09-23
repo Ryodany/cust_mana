@@ -72,7 +72,7 @@ void processInput(int input, Customers &customers)
 		//testCustomer(customer);
 		
 		// adding the customer through the operator<< overload I previously implemented
-		if (customers << make_unique<Customer>(customer))
+		if (customers << std::make_unique<Customer>(customer))
 			cout << "Customer added successfully" << endl << endl;
 		else
 			cout << "Unexpected error occurred when trying to add that customer" << endl << endl;
