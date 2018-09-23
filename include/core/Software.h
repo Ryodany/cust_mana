@@ -9,13 +9,17 @@
 class CORE_API Software
 {
 	class Impl;
-	Impl *m_pImpl;
+	Impl *m_pImpl; // cannot use smart pointer because they are STL as well
 public:
 	Software(const std::string &codename, time_t releaseDate, int licenseCost);
+	// Implemented the rule-of-five
 	Software(const Software &other);
+	Software(Software &&other);
+	Software &operator=(const Software &other);
+	Software &operator=(Software &&other);
 	~Software();
 
-	std::string getCodeName() const;
+	std::string &getCodeName();
 	time_t getReleaseDate() const;
 	int getLicenseCost() const;
 
@@ -23,16 +27,4 @@ public:
 	void setReleaseDate(time_t releaseDate);
 	void setLicenseCost(int licenseCost);
 
-};
-
-// Pointer to implementation (for dll export of STL)
-class Software::Impl
-{
-public:
-	Impl(const std::string &codename, time_t releaseDate, int licenseCost) : m_codename(codename),
-		m_releaseDate(releaseDate), m_licenseCost(licenseCost) { };
-
-	std::string m_codename;
-	time_t m_releaseDate;
-	int m_licenseCost;
 };

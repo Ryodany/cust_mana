@@ -19,17 +19,20 @@
 #if defined(_MSC_VER)
 	#ifdef CORE_DLL
 		#define CORE_API __declspec(dllexport)
+		#define STL_EXP_TEMPLATE
 	#else
-		#define CORE_IMPORT __declspec(dllimport)
+		#define CORE_API __declspec(dllimport)
+		#define STL_EXP_TEMPLATE extern
 	#endif
 #elif defined(__GNUC__)
 	#ifdef CORE_DLL
 		#define CORE_API __attribute__((visibility("default")))
+		#define STL_EXP_TEMPLATE
 	#else
-		#define CORE_IMPORT
+		#define CORE_API
+		#define STL_EXP_TEMPLATE extern
 	#endif
 #else
 	#define CORE_API
-	#define CORE_IMPORT
 	#pragma warning Unknown dynamic link import/export semantics.
 #endif

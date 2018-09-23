@@ -11,24 +11,31 @@
 class CORE_API Customers
 {
 	class Impl;
-	Impl *m_pImpl;
+	Impl *m_pImpl; // cannot use smart pointer because they are STL as well
 public:
+	typedef std::map<unsigned long, std::shared_ptr<Customer> > CustomersMap;
+
 	Customers();
+	// non-copyable, non-movable. Implemented the rule-of-five
 	Customers(const Customers &other) = delete;
+	Customers(Customers &&other) = delete;
+	Customer &operator=(const Customers &other) = delete;
+	Customer &operator=(Customers &&other) = delete;
 	~Customers();
+
 	bool addCustomer(std::unique_ptr<Customer> &&customer);
 	bool removeCustomer(unsigned long id);
 
-	std::shared_ptr<Customer> &&getCustomerById(unsigned long id);
-	std::map<unsigned long, std::shared_ptr<Customer> > getCustomers() const;
-	std::vector<Customer> returnCustomers() const;
-	std::vector<Customer> returnCustomers(std::string name) const;
+	std::shared_ptr<Customer> getCustomerById(unsigned long id);
+	CustomersMap getCustomers() const;
+	std::vector<std::shared_ptr<Customer> > returnCustomers() const;
+	std::vector<std::shared_ptr<Customer> > returnCustomers(const std::string &name) const;
 	std::vector<unsigned long> returnIds() const;
 	unsigned long getLastId() const;
 	std::size_t getSize() const;
 
-	std::map<unsigned long, std::shared_ptr<Customer> >::iterator begin();
-	std::map<unsigned long, std::shared_ptr<Customer> >::iterator end();
+	CustomersMap::iterator begin();
+	CustomersMap::iterator end();
 	
 	// adds Customer
 	friend bool operator<<(Customers &customers, std::unique_ptr<Customer> &&customer)
@@ -41,16 +48,4 @@ public:
 	{
 		return customers.removeCustomer(id);
 	}
-
-
-};
-
-// Pointer to implementation (for dll export of STL)
-class Customers::Impl
-{
-public:
-	typedef std::map<unsigned long, std::shared_ptr<Customer> > CustomersMap;
-
-	CustomersMap m_customers;
-	unsigned long m_lastId = 0; // should be gathered from a file
 };

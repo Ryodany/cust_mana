@@ -19,6 +19,28 @@ void printCustomers(Customer &customer)
 	cout << customer << endl;
 }
 
+void testSoftware(const Software &software)
+{
+	// testing copy and move constructors and operators
+	Software softwareDummy(software);
+	Software softwareCopy = softwareDummy;
+	Software softwareCopy2 = softwareDummy;
+	Software softwareCopy3 = softwareCopy;
+	Software softwareCopy4(softwareDummy);
+	Software softwareMove = std::move(softwareCopy);
+}
+
+void testCustomer(const Customer &customer)
+{
+	// testing copy and move constructors and operators
+	Customer customerDummy(customer);
+	Customer customerCopy = customerDummy;
+	Customer customerCopy2 = customerDummy;
+	Customer customerCopy3 = customerCopy;
+	Customer customerCopy4(customerDummy);
+	Customer customerMove = std::move(customerCopy);
+}
+
 void processInput(int input, Customers &customers)
 {
 	if (input == 1) // print
@@ -44,8 +66,13 @@ void processInput(int input, Customers &customers)
 		struct tm y2k17 = { 0 };
 		y2k17.tm_year = 117;
 		Software datisa("Datisa32", mktime(&y2k17), 39);
+		//testSoftware(datisa);
+
+		Customer customer(customers.getLastId(), name, surname, phoneNumber, datisa, yearsWithUs);
+		//testCustomer(customer);
+		
 		// adding the customer through the operator<< overload I previously implemented
-		if (customers << make_unique<Customer>(Customer(customers.getLastId(), name, surname, phoneNumber, datisa, yearsWithUs)))
+		if (customers << make_unique<Customer>(customer))
 			cout << "Customer added successfully" << endl << endl;
 		else
 			cout << "Unexpected error occurred when trying to add that customer" << endl << endl;
@@ -57,32 +84,35 @@ void processInput(int input, Customers &customers)
 			cout << "No customers found" << endl << endl;
 			return;
 		}
+
 		string inputStr;
 		cout << "What's the name or surname of the customer you want to remove from the database? "; cin >> inputStr;
-		vector<Customer> results = customers.returnCustomers(inputStr);
+		vector<std::shared_ptr<Customer> > results = customers.returnCustomers(inputStr);
 		if (results.size() > 0)
 		{
 			// get every ID from the results
 			vector<unsigned long> ids;
-			for (Customer customer : results)
+			for (std::shared_ptr<Customer> customer : results)
 			{
-				ids.push_back(customer.getId());
-				cout << customer << endl;
+				ids.push_back(customer->getId());
+				cout << *customer << endl;
 			}
+
 			bool valid = false;
 			unsigned long id;
 			cout << "Which one do you want to remove? Please choose an ID "; cin >> id;
 			do
 			{
 				// lambda function to find any ID matching in the list
-				if (find_if(ids.begin(), ids.end(), [id](const unsigned long &i) { return i == id; } ) != ids.end())
+				if (find_if(ids.begin(), ids.end(), [id](const unsigned long &i) { return i == id; }) != ids.end())
 					valid = true;
 				if (!valid)
 				{
-					cout << "That ID is not in the list in front of you. Try again: "; 
+					cout << "That ID is not in the list in front of you. Try again: ";
 					cin >> id;
 				}
 			} while (!valid);
+
 			// removing the customer through the operator>> overload I previously implemented
 			if (customers >> id)
 				cout << "Customer " << id << " has been removed successfully" << endl << endl;
@@ -97,7 +127,7 @@ void processInput(int input, Customers &customers)
 		cout << "Invalid input" << endl << endl;
 }
 
-int main()
+void asd()
 {
 	int input;
 	Customers customers;
@@ -110,5 +140,11 @@ int main()
 		cin >> input;
 		processInput(input, customers);
 	} while (input != 0);
+}
+
+int main()
+{
+	asd();
+
 	return 0;
 }
