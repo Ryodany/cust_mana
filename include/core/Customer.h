@@ -7,6 +7,12 @@
 #include "Software.h"
 
 // Exported class
+
+/*
+			------------------ IMPORTANTE NOTE ------------------
+	If I didn't export the whole class and rather just export the public methods,
+	I could have a smart pointer to Impl (i.e. std::unique_ptr<Impl> m_pImpl;)
+*/
 class CORE_API Customer
 {
 	class Impl;
