@@ -34,8 +34,8 @@ public:
 
 	std::shared_ptr<Customer> getCustomerById(unsigned long id);
 	CustomersMap getCustomers() const;
-	std::vector<std::shared_ptr<Customer> > returnCustomers() const;
-	std::vector<std::shared_ptr<Customer> > returnCustomers(const std::string &name) const;
+	std::vector<std::reference_wrapper<Customer> > returnCustomers() const; // reference to Customer, instead of std::shared_ptr<Customer>
+	std::vector<std::reference_wrapper<Customer> > returnCustomers(const std::string &name) const; // reference to Customer, instead of std::shared_ptr<Customer>
 	std::vector<unsigned long> returnIds() const;
 	unsigned long getLastId() const;
 	std::size_t getSize() const;

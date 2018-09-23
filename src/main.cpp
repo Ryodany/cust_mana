@@ -87,15 +87,15 @@ void processInput(int input, Customers &customers)
 
 		string inputStr;
 		cout << "What's the name or surname of the customer you want to remove from the database? "; cin >> inputStr;
-		vector<std::shared_ptr<Customer> > results = customers.returnCustomers(inputStr);
+		vector<std::reference_wrapper<Customer> > results = customers.returnCustomers(inputStr);
 		if (results.size() > 0)
 		{
 			// get every ID from the results
 			vector<unsigned long> ids;
-			for (std::shared_ptr<Customer> customer : results)
+			for (Customer &customer : results)
 			{
-				ids.push_back(customer->getId());
-				cout << *customer << endl;
+				ids.push_back(customer.getId());
+				cout << customer << endl;
 			}
 
 			bool valid = false;

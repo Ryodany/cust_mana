@@ -62,21 +62,21 @@ std::map<unsigned long, std::shared_ptr<Customer> > Customers::getCustomers() co
 	return m_pImpl->m_customers;
 }
 
-std::vector<std::shared_ptr<Customer> > Customers::returnCustomers() const
+std::vector<std::reference_wrapper<Customer> > Customers::returnCustomers() const
 {
-	std::vector<std::shared_ptr<Customer> > customers;
+	std::vector<std::reference_wrapper<Customer> > customers;
 	for (Customers::CustomersMap::iterator itCustomer = m_pImpl->m_customers.begin(); itCustomer != m_pImpl->m_customers.end(); itCustomer++)
-		customers.push_back(itCustomer->second);
+		customers.push_back(*itCustomer->second);
 	return customers;
 }
 
-std::vector<std::shared_ptr<Customer> > Customers::returnCustomers(const std::string &name) const
+std::vector<std::reference_wrapper<Customer> > Customers::returnCustomers(const std::string &name) const
 {
-	std::vector<std::shared_ptr<Customer> > ret;
+	std::vector<std::reference_wrapper<Customer> > ret;
 	for (Customers::CustomersMap::iterator itCustomer = m_pImpl->m_customers.begin(); itCustomer != m_pImpl->m_customers.end(); itCustomer++)
 	{
 		if (itCustomer->second->getName() == name || itCustomer->second->getSurName() == name)
-			ret.push_back(itCustomer->second);
+			ret.push_back(*itCustomer->second);
 	}
 	return ret;
 }
