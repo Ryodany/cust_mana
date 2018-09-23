@@ -127,7 +127,7 @@ void processInput(int input, Customers &customers)
 		cout << "Invalid input" << endl << endl;
 }
 
-void asd()
+int main()
 {
 	int input;
 	Customers customers;
@@ -140,11 +140,6 @@ void asd()
 		cin >> input;
 		processInput(input, customers);
 	} while (input != 0);
-}
-
-int main()
-{
-	asd();
 
 	return 0;
 }
