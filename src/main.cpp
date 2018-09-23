@@ -22,22 +22,22 @@ void printCustomers(Customer &customer)
 void testSoftware(const Software &software)
 {
 	// testing copy and move constructors and operators
-	Software softwareDummy(software);
+	Software softwareDummy{ software };
 	Software softwareCopy = softwareDummy;
 	Software softwareCopy2 = softwareDummy;
 	Software softwareCopy3 = softwareCopy;
-	Software softwareCopy4(softwareDummy);
+	Software softwareCopy4{ softwareDummy };
 	Software softwareMove = std::move(softwareCopy);
 }
 
 void testCustomer(const Customer &customer)
 {
 	// testing copy and move constructors and operators
-	Customer customerDummy(customer);
+	Customer customerDummy{ customer };
 	Customer customerCopy = customerDummy;
 	Customer customerCopy2 = customerDummy;
 	Customer customerCopy3 = customerCopy;
-	Customer customerCopy4(customerDummy);
+	Customer customerCopy4{ customerDummy };
 	Customer customerMove = std::move(customerCopy);
 }
 
@@ -65,10 +65,10 @@ void processInput(int input, Customers &customers)
 		*/
 		struct tm y2k17 = { 0 };
 		y2k17.tm_year = 117;
-		Software datisa("Datisa32", mktime(&y2k17), 39);
+		Software datisa{ "Datisa32", mktime(&y2k17), 39 };
 		//testSoftware(datisa);
 
-		Customer customer(customers.getLastId(), name, surname, phoneNumber, datisa, yearsWithUs);
+		Customer customer{ customers.getLastId(), name, surname, phoneNumber, datisa, yearsWithUs };
 		//testCustomer(customer);
 		
 		// adding the customer through the operator<< overload I previously implemented
