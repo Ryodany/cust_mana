@@ -33,6 +33,7 @@ build/
 bin*/
 debug_bin*/
 obj/
+conan/
 *.idb
 *.tlog
 *.db
