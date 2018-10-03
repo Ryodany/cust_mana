@@ -19,7 +19,7 @@ class CORE_API Customers
 	class Impl;
 	Impl *m_pImpl; // cannot use smart pointer because they are STL as well
 public:
-	typedef std::map<unsigned long, std::shared_ptr<Customer> > CustomersMap;
+	using CustomersMap = std::map<unsigned long, std::shared_ptr<Customer> >;
 
 	Customers();
 	// non-copyable, non-movable. Implemented the rule-of-five
